@@ -1,14 +1,10 @@
 package com.nexora.platform.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
-@TableName("tenant")
 public class Tenant {
-    @TableId(type = IdType.AUTO)
     private Long id;
     private String tenantName;
     private String tenantCode;
@@ -20,8 +16,6 @@ public class Tenant {
     private Integer maxProviders;
     private String extraConfig;
     private String remark;
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

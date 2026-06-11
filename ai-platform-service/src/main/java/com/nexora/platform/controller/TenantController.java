@@ -1,6 +1,5 @@
 package com.nexora.platform.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nexora.platform.dto.ApiResponse;
 import com.nexora.platform.entity.Tenant;
 import com.nexora.platform.mapper.TenantMapper;
@@ -18,13 +17,12 @@ public class TenantController {
 
     @GetMapping
     public ApiResponse<List<Tenant>> list() {
-        return ApiResponse.success(tenantMapper.selectList(
-            new LambdaQueryWrapper<Tenant>().eq(Tenant::getStatus, "ACTIVE")
-        ));
+        return ApiResponse.success(tenantMapper.findByStatus("ACTIVE"));
     }
 
     @PostMapping
     public ApiResponse<Tenant> create(@RequestBody Tenant tenant) {
+        tenant.setStatus(tenant.getStatus() != null ? tenant.getStatus() : "ACTIVE");
         tenantMapper.insert(tenant);
         return ApiResponse.success(tenant);
     }
@@ -32,32 +30,24 @@ public class TenantController {
     @PutMapping("/{id}")
     public ApiResponse<Tenant> update(@PathVariable Long id, @RequestBody Tenant tenant) {
         tenant.setId(id);
-        tenantMapper.updateById(tenant);
-        return ApiResponse.success(tenantMapper.selectById(id));
+        tenantMapper.update(tenant);
+        return ApiResponse.success(tenantMapper.findById(id));
     }
 
     @PutMapping("/{id}/disable")
     public ApiResponse<Void> disable(@PathVariable Long id) {
-        Tenant tenant = tenantMapper.selectById(id);
-        if (tenant != null) {
-            tenant.setStatus("DISABLED");
-            tenantMapper.updateById(tenant);
-        }
+        tenantMapper.updateStatus(id, "DISABLED");
         return ApiResponse.success(null);
     }
 
     @PutMapping("/{id}/enable")
     public ApiResponse<Void> enable(@PathVariable Long id) {
-        Tenant tenant = tenantMapper.selectById(id);
-        if (tenant != null) {
-            tenant.setStatus("ACTIVE");
-            tenantMapper.updateById(tenant);
-        }
+        tenantMapper.updateStatus(id, "ACTIVE");
         return ApiResponse.success(null);
     }
 
     @GetMapping("/{id}")
     public ApiResponse<Tenant> get(@PathVariable Long id) {
-        return ApiResponse.success(tenantMapper.selectById(id));
+        return ApiResponse.success(tenantMapper.findById(id));
     }
 }

@@ -1,6 +1,5 @@
 package com.nexora.platform.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nexora.platform.dto.ApiResponse;
 import com.nexora.platform.entity.AiProviderConfig;
 import com.nexora.platform.mapper.AiProviderConfigMapper;
@@ -18,9 +17,7 @@ public class ProviderController {
 
     @GetMapping
     public ApiResponse<List<AiProviderConfig>> list() {
-        return ApiResponse.success(providerMapper.selectList(
-            new LambdaQueryWrapper<AiProviderConfig>().eq(AiProviderConfig::getEnabled, true)
-        ));
+        return ApiResponse.success(providerMapper.findEnabled());
     }
 
     @PostMapping
@@ -32,22 +29,22 @@ public class ProviderController {
     @PutMapping("/{id}")
     public ApiResponse<AiProviderConfig> update(@PathVariable Long id, @RequestBody AiProviderConfig config) {
         config.setId(id);
-        providerMapper.updateById(config);
-        return ApiResponse.success(providerMapper.selectById(id));
+        providerMapper.update(config);
+        return ApiResponse.success(providerMapper.findById(id));
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
-        AiProviderConfig config = providerMapper.selectById(id);
+        AiProviderConfig config = providerMapper.findById(id);
         if (config != null) {
             config.setEnabled(false);
-            providerMapper.updateById(config);
+            providerMapper.update(config);
         }
         return ApiResponse.success(null);
     }
 
     @GetMapping("/{id}")
     public ApiResponse<AiProviderConfig> get(@PathVariable Long id) {
-        return ApiResponse.success(providerMapper.selectById(id));
+        return ApiResponse.success(providerMapper.findById(id));
     }
 }

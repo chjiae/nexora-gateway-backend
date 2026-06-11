@@ -80,7 +80,8 @@ public final class UrlBuilder {
         if (url == null || url.isEmpty()) {
             return "";
         }
-        return url.replaceAll("/+$", "");
+        // Collapse consecutive slashes (preserve :// in scheme), then strip trailing
+        return url.replaceAll("(?<!:)/{2,}", "/").replaceAll("/+$", "");
     }
 
     private static String normalizePrefix(String prefix) {
@@ -88,6 +89,8 @@ public final class UrlBuilder {
             return "";
         }
         String normalized = prefix.trim();
+        // Collapse consecutive slashes first, then strip leading and trailing
+        normalized = normalized.replaceAll("/{2,}", "/");
         normalized = normalized.replaceAll("^/+", "");
         normalized = normalized.replaceAll("/+$", "");
         return normalized;

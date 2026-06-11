@@ -1,6 +1,5 @@
 package com.nexora.platform.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nexora.platform.dto.ApiResponse;
 import com.nexora.platform.entity.AiModelRoute;
 import com.nexora.platform.mapper.AiModelRouteMapper;
@@ -18,9 +17,7 @@ public class ModelRouteController {
 
     @GetMapping
     public ApiResponse<List<AiModelRoute>> list() {
-        return ApiResponse.success(routeMapper.selectList(
-            new LambdaQueryWrapper<AiModelRoute>().eq(AiModelRoute::getEnabled, true)
-        ));
+        return ApiResponse.success(routeMapper.findEnabled());
     }
 
     @PostMapping
@@ -32,22 +29,22 @@ public class ModelRouteController {
     @PutMapping("/{id}")
     public ApiResponse<AiModelRoute> update(@PathVariable Long id, @RequestBody AiModelRoute route) {
         route.setId(id);
-        routeMapper.updateById(route);
-        return ApiResponse.success(routeMapper.selectById(id));
+        routeMapper.update(route);
+        return ApiResponse.success(routeMapper.findById(id));
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
-        AiModelRoute route = routeMapper.selectById(id);
+        AiModelRoute route = routeMapper.findById(id);
         if (route != null) {
             route.setEnabled(false);
-            routeMapper.updateById(route);
+            routeMapper.update(route);
         }
         return ApiResponse.success(null);
     }
 
     @GetMapping("/{id}")
     public ApiResponse<AiModelRoute> get(@PathVariable Long id) {
-        return ApiResponse.success(routeMapper.selectById(id));
+        return ApiResponse.success(routeMapper.findById(id));
     }
 }

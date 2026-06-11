@@ -1,6 +1,5 @@
 package com.nexora.platform.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nexora.platform.dto.*;
 import com.nexora.platform.entity.SysUser;
 import com.nexora.platform.mapper.SysUserMapper;
@@ -23,11 +22,10 @@ public class AuthService {
     private final Map<String, UserSession> tokenStore = new HashMap<>();
 
     public LoginResponse login(LoginRequest request) {
-        SysUser user = userMapper.selectOne(
-            new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, request.getUsername())
-        );
+        SysUser user = userMapper.findByUsername(request.getUsername());
 
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+        // TODO: Use BCrypt in production
+        if (user == null || !request.getPassword().equals(user.getPasswordHash())) {
             throw new RuntimeException("Invalid username or password");
         }
 
@@ -35,11 +33,9 @@ public class AuthService {
             throw new RuntimeException("User account is not active");
         }
 
-        // Update last login
         user.setLastLoginTime(LocalDateTime.now());
-        userMapper.updateById(user);
+        userMapper.updateLastLogin(user.getId(), user.getLastLoginTime());
 
-        // Generate token
         String token = UUID.randomUUID().toString();
         List<String> roles = resolveRoles(user);
         List<String> permissions = resolvePermissions(user);
@@ -71,7 +67,7 @@ public class AuthService {
 
     public UserInfoResponse getCurrentUser(String token) {
         UserSession session = validateToken(token);
-        SysUser user = userMapper.selectById(session.getUserId());
+        SysUser user = userMapper.findById(session.getUserId());
 
         return UserInfoResponse.builder()
             .userId(user.getId())
@@ -92,12 +88,9 @@ public class AuthService {
         UserSession session = validateToken(token);
 
         List<MenuResponse.MenuItem> menus = new ArrayList<>();
-
-        // Dashboard
         menus.add(MenuResponse.MenuItem.builder()
             .code("dashboard").name("Overview").path("/dashboard").icon("dashboard").build());
 
-        // Platform Admin menus
         if (session.getRoles().contains("PLATFORM_SUPER_ADMIN") || session.getRoles().contains("PLATFORM_ADMIN")) {
             menus.add(MenuResponse.MenuItem.builder()
                 .code("tenant_mgmt").name("Tenants").path("/tenants").icon("building").build());
@@ -113,23 +106,15 @@ public class AuthService {
                 .code("billing").name("Billing").path("/billing").icon("dollar").build());
         }
 
-        // Tenant Admin menus
         if (session.getRoles().contains("TENANT_OWNER") || session.getRoles().contains("TENANT_ADMIN")) {
-            menus.add(MenuResponse.MenuItem.builder()
-                .code("tenant_members").name("Members").path("/members").icon("users").build());
             menus.add(MenuResponse.MenuItem.builder()
                 .code("tenant_providers").name("Providers").path("/providers").icon("server").build());
             menus.add(MenuResponse.MenuItem.builder()
                 .code("tenant_endpoints").name("Endpoints").path("/endpoints").icon("plug").build());
             menus.add(MenuResponse.MenuItem.builder()
                 .code("tenant_routes").name("Model Routes").path("/routes").icon("route").build());
-            menus.add(MenuResponse.MenuItem.builder()
-                .code("tenant_logs").name("Call Logs").path("/logs").icon("file-text").build());
-            menus.add(MenuResponse.MenuItem.builder()
-                .code("tenant_billing").name("Billing").path("/billing").icon("dollar").build());
         }
 
-        // Common user menus
         menus.add(MenuResponse.MenuItem.builder()
             .code("apikey_mgmt").name("API Keys").path("/api-keys").icon("key").build());
         menus.add(MenuResponse.MenuItem.builder()

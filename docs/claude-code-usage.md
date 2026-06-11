@@ -137,8 +137,8 @@ CLAUDE.md > PHASE_1_CORE_PROMPT.md > docs/FULL_REQUIREMENTS.md
 2. 前端 UI、交互、信息架构必须优先使用 impeccable skill 和 taste skill。
 3. 技术文档查询优先使用 Context7 MCP。
 4. 前端页面验证和 E2E 优先使用 Playwright MCP。
-5. PostgreSQL 迁移脚本和表结构验证优先使用数据库 MCP。
-6. Redis Pub/Sub 发布消费验证优先使用 Redis MCP。
+5. PostgreSQL 迁移脚本和表结构验证优先使用数据库 Postgre MCP 或 Docker DESKTOP。
+6. Redis Pub/Sub 发布消费验证优先使用 Redis MCP 或本地Docker Desktop。
 7. Docker Compose 和服务连通性验证优先使用 Docker / Kubernetes MCP。
 8. 双仓库和 Git Submodule 检查优先使用 GitHub / GitLab MCP。
 

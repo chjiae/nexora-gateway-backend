@@ -1,6 +1,5 @@
 package com.nexora.platform.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nexora.platform.dto.ApiResponse;
 import com.nexora.platform.entity.AiProviderEndpoint;
 import com.nexora.platform.mapper.AiProviderEndpointMapper;
@@ -18,12 +17,10 @@ public class EndpointController {
 
     @GetMapping
     public ApiResponse<List<AiProviderEndpoint>> list(@RequestParam(required = false) Long providerId) {
-        LambdaQueryWrapper<AiProviderEndpoint> wrapper = new LambdaQueryWrapper<>();
         if (providerId != null) {
-            wrapper.eq(AiProviderEndpoint::getProviderId, providerId);
+            return ApiResponse.success(endpointMapper.findByProvider(providerId));
         }
-        wrapper.eq(AiProviderEndpoint::getEnabled, true);
-        return ApiResponse.success(endpointMapper.selectList(wrapper));
+        return ApiResponse.success(endpointMapper.findEnabled());
     }
 
     @PostMapping
@@ -35,22 +32,22 @@ public class EndpointController {
     @PutMapping("/{id}")
     public ApiResponse<AiProviderEndpoint> update(@PathVariable Long id, @RequestBody AiProviderEndpoint endpoint) {
         endpoint.setId(id);
-        endpointMapper.updateById(endpoint);
-        return ApiResponse.success(endpointMapper.selectById(id));
+        endpointMapper.update(endpoint);
+        return ApiResponse.success(endpointMapper.findById(id));
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
-        AiProviderEndpoint ep = endpointMapper.selectById(id);
+        AiProviderEndpoint ep = endpointMapper.findById(id);
         if (ep != null) {
             ep.setEnabled(false);
-            endpointMapper.updateById(ep);
+            endpointMapper.update(ep);
         }
         return ApiResponse.success(null);
     }
 
     @GetMapping("/{id}")
     public ApiResponse<AiProviderEndpoint> get(@PathVariable Long id) {
-        return ApiResponse.success(endpointMapper.selectById(id));
+        return ApiResponse.success(endpointMapper.findById(id));
     }
 }

@@ -84,4 +84,33 @@ class UrlBuilderTest {
                 ProtocolType.EMBEDDINGS, UpstreamOperation.EMBEDDINGS);
         assertEquals("https://api.openai.com/v1/embeddings", url);
     }
+
+    @Test
+    void nullBaseUrlShouldNotThrow() {
+        assertDoesNotThrow(() -> UrlBuilder.build(null, ProtocolType.OPENAI, UpstreamOperation.CHAT_COMPLETIONS));
+    }
+
+    @Test
+    void doubleSlashInBaseUrlShouldBeNormalized() {
+        String url = UrlBuilder.build("https://api.openai.com//v1/",
+                ProtocolType.OPENAI, UpstreamOperation.MODELS);
+        // Allow :// in scheme, but reject // anywhere else in the path
+        assertFalse(url.replace("://", "::").contains("//"),
+                "Should not contain double slashes in path: " + url);
+    }
+
+    @Test
+    void pathPrefixWithSlashesShouldBeNormalized() {
+        String url = UrlBuilder.build("https://gateway.example.com", "///custom//prefix///",
+                ProtocolType.OPENAI, UpstreamOperation.CHAT_COMPLETIONS);
+        assertEquals("https://gateway.example.com/custom/prefix/v1/chat/completions", url);
+    }
+
+    @Test
+    void geminiProtocolUsesV1Beta() {
+        String url = UrlBuilder.build("https://generativelanguage.googleapis.com",
+                ProtocolType.GEMINI, UpstreamOperation.CHAT_COMPLETIONS);
+        assertTrue(url.contains("v1beta"), "Gemini should use v1beta: " + url);
+        assertFalse(url.contains("v1/"), "Gemini should not use v1: " + url);
+    }
 }

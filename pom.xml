@@ -57,11 +57,11 @@
                 <version>${lombok.version}</version>
             </dependency>
 
-            <!-- MyBatis-Plus Spring Boot 4 Starter -->
+            <!-- MyBatis Spring Boot Starter -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>3.0.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

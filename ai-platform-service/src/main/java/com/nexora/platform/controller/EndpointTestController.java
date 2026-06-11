@@ -30,7 +30,7 @@ public class EndpointTestController {
     public ApiResponse<Map<String, Object>> testConnectivity(
             @PathVariable Long id,
             @RequestBody Map<String, String> body) {
-        AiProviderEndpoint endpoint = endpointMapper.selectById(id);
+        AiProviderEndpoint endpoint = endpointMapper.findById(id);
         if (endpoint == null) {
             return ApiResponse.error(404, "Endpoint not found");
         }
@@ -72,7 +72,7 @@ public class EndpointTestController {
     public ApiResponse<Map<String, Object>> testModels(
             @PathVariable Long id,
             @RequestBody Map<String, String> body) {
-        AiProviderEndpoint endpoint = endpointMapper.selectById(id);
+        AiProviderEndpoint endpoint = endpointMapper.findById(id);
         if (endpoint == null) {
             return ApiResponse.error(404, "Endpoint not found");
         }

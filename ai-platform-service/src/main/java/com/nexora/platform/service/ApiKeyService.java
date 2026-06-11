@@ -1,21 +1,18 @@
 package com.nexora.platform.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nexora.platform.entity.AiApiKey;
 import com.nexora.platform.mapper.AiApiKeyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HexFormat;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -24,6 +21,7 @@ public class ApiKeyService {
 
     private static final String KEY_PREFIX = "sk-nex-";
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final int PAGE_SIZE = 20;
 
     private final AiApiKeyMapper apiKeyMapper;
 
@@ -47,29 +45,24 @@ public class ApiKeyService {
         return new CreatedKey(apiKey.getId(), rawKey, keyPrefix, keyName);
     }
 
-    public Page<AiApiKey> listApiKeys(Long userId, int page, int size) {
-        LambdaQueryWrapper<AiApiKey> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(AiApiKey::getOwnerUserId, userId)
-               .orderByDesc(AiApiKey::getCreateTime);
-        return apiKeyMapper.selectPage(new Page<>(page, size), wrapper);
+    public List<AiApiKey> listApiKeys(Long userId, int page) {
+        int offset = (page - 1) * PAGE_SIZE;
+        return apiKeyMapper.findByUserId(userId, offset, PAGE_SIZE);
     }
 
     @Transactional
     public boolean disableApiKey(Long keyId, Long userId) {
-        AiApiKey key = apiKeyMapper.selectById(keyId);
+        AiApiKey key = apiKeyMapper.findById(keyId);
         if (key == null || !key.getOwnerUserId().equals(userId)) {
             return false;
         }
-        key.setStatus("DISABLED");
-        apiKeyMapper.updateById(key);
+        apiKeyMapper.updateStatus(keyId, "DISABLED");
         log.info("Disabled API Key: id={}, userId={}", keyId, userId);
         return true;
     }
 
     public AiApiKey findByHash(String keyHash) {
-        return apiKeyMapper.selectOne(
-            new LambdaQueryWrapper<AiApiKey>().eq(AiApiKey::getKeyHash, keyHash)
-        );
+        return apiKeyMapper.findByHash(keyHash);
     }
 
     public static String hashKey(String rawKey) {

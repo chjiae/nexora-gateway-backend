@@ -19,8 +19,6 @@ spring:
           min-idle: 8
 
   jackson:
-    serialization:
-      write-dates-as-timestamps: false
     default-property-inclusion: non_null
 
 logging:

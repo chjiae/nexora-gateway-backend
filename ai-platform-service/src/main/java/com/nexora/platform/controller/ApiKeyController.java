@@ -8,7 +8,7 @@ import com.nexora.platform.service.UserSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/api-keys")
@@ -37,12 +37,12 @@ public class ApiKeyController {
     }
 
     @GetMapping
-    public ApiResponse<?> list(
+    public ApiResponse<Map<String, Object>> list(
             @RequestHeader("Authorization") String token,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @RequestParam(defaultValue = "1") int page) {
         UserSession session = authService.validateToken(token);
-        return ApiResponse.success(apiKeyService.listApiKeys(session.getUserId(), page, size));
+        List<AiApiKey> keys = apiKeyService.listApiKeys(session.getUserId(), page);
+        return ApiResponse.success(Map.of("records", keys, "total", keys.size()));
     }
 
     @PutMapping("/{id}/disable")

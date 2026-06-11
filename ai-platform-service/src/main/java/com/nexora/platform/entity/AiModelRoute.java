@@ -1,14 +1,10 @@
 package com.nexora.platform.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
-@TableName("ai_model_route")
 public class AiModelRoute {
-    @TableId(type = IdType.AUTO)
     private Long id;
     private String modelAlias;
     private Long providerId;
@@ -29,8 +25,6 @@ public class AiModelRoute {
     private String ownerType;
     private Long ownerTenantId;
     private Boolean enabled;
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }
