@@ -1,0 +1,73 @@
+- generic [ref=e33]:
+  - complementary [ref=e34]:
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - img [ref=e37]:
+          - img [ref=e38]
+        - text: Nexora Gateway
+      - menu [ref=e40]:
+        - menuitem "Overview" [ref=e41]:
+          - img [ref=e42] [cursor=pointer]:
+            - img [ref=e43]
+          - text: Overview
+        - menuitem "Chat" [ref=e48]:
+          - img [ref=e49] [cursor=pointer]:
+            - img [ref=e50]
+          - text: Chat
+        - menuitem "Playground" [ref=e52]:
+          - img [ref=e53] [cursor=pointer]:
+            - img [ref=e54]
+          - text: Playground
+        - menuitem "Endpoint Test" [ref=e58]:
+          - img [ref=e59] [cursor=pointer]:
+            - img [ref=e60]
+          - text: Endpoint Test
+        - menuitem "API Keys" [ref=e62]:
+          - img [ref=e63] [cursor=pointer]:
+            - img [ref=e64]
+          - text: API Keys
+        - menuitem "Providers" [ref=e66]:
+          - img [ref=e67] [cursor=pointer]:
+            - img [ref=e68]
+          - text: Providers
+        - menuitem "Endpoints" [ref=e71]:
+          - img [ref=e72] [cursor=pointer]:
+            - img [ref=e73]
+          - text: Endpoints
+        - menuitem "Model Routes" [ref=e80]:
+          - img [ref=e81] [cursor=pointer]:
+            - img [ref=e82]
+          - text: Model Routes
+        - menuitem "Tenants" [ref=e86]:
+          - img [ref=e87] [cursor=pointer]:
+            - img [ref=e88]
+          - text: Tenants
+    - img [ref=e92] [cursor=pointer]
+  - generic [ref=e96]:
+    - generic [ref=e97]:
+      - generic [ref=e98]: Chat
+      - button "admin" [ref=e100] [cursor=pointer]:
+        - generic [ref=e101]:
+          - generic [ref=e102]: admin
+          - img [ref=e103]:
+            - img [ref=e104]
+    - generic [ref=e188]:
+      - generic [ref=e189]:
+        - generic [ref=e192] [cursor=pointer]:
+          - generic "GPT-4o Mini" [ref=e193]:
+            - generic [ref=e194]: GPT-4o Mini
+          - img "loading" [ref=e195]:
+            - img [ref=e200]
+        - switch [checked] [ref=e202]
+        - text: Stream
+        - button "New Chat" [ref=e205] [cursor=pointer]:
+          - generic [ref=e206]: New Chat
+      - generic [ref=e209]:
+        - img [ref=e210]
+        - paragraph [ref=e211]: Select a model and start chatting
+      - generic [ref=e212]:
+        - generic [ref=e214]:
+          - textbox "Type your message... (Shift+Enter for new line)" [ref=e215]
+          - generic: Type your message... (Shift+Enter for new line)
+        - button [ref=e216] [cursor=pointer]:
+          - img [ref=e218]

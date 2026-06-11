@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e33]:
+    - complementary [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - img [ref=e37]:
+            - img [ref=e38]
+          - text: Nexora Gateway
+        - menu [ref=e40]:
+          - menuitem "Overview" [ref=e41]:
+            - img [ref=e42] [cursor=pointer]:
+              - img [ref=e43]
+            - text: Overview
+          - menuitem "Chat" [ref=e48]:
+            - img [ref=e49] [cursor=pointer]:
+              - img [ref=e50]
+            - text: Chat
+          - menuitem "Playground" [ref=e52]:
+            - img [ref=e53] [cursor=pointer]:
+              - img [ref=e54]
+            - text: Playground
+          - menuitem "Endpoint Test" [ref=e58]:
+            - img [ref=e59] [cursor=pointer]:
+              - img [ref=e60]
+            - text: Endpoint Test
+          - menuitem "API Keys" [ref=e62]:
+            - img [ref=e63] [cursor=pointer]:
+              - img [ref=e64]
+            - text: API Keys
+          - menuitem "Providers" [ref=e66]:
+            - img [ref=e67] [cursor=pointer]:
+              - img [ref=e68]
+            - text: Providers
+          - menuitem "Endpoints" [ref=e71]:
+            - img [ref=e72] [cursor=pointer]:
+              - img [ref=e73]
+            - text: Endpoints
+          - menuitem "Model Routes" [ref=e80]:
+            - img [ref=e81] [cursor=pointer]:
+              - img [ref=e82]
+            - text: Model Routes
+          - menuitem "Tenants" [ref=e86]:
+            - img [ref=e87] [cursor=pointer]:
+              - img [ref=e88]
+            - text: Tenants
+      - img [ref=e92] [cursor=pointer]
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e98]: Overview
+        - button "admin" [ref=e100] [cursor=pointer]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: admin
+            - img [ref=e103]:
+              - img [ref=e104]
+      - generic [ref=e108]:
+        - heading "Overview" [level=2] [ref=e109]
+        - generic [ref=e110]:
+          - generic [ref=e113]:
+            - generic [ref=e114]: Active API Keys
+            - generic [ref=e115]: "0"
+          - generic [ref=e118]:
+            - generic [ref=e119]: Providers
+            - generic [ref=e120]: "0"
+          - generic [ref=e123]:
+            - generic [ref=e124]: Endpoints
+            - generic [ref=e125]: "0"
+          - generic [ref=e128]:
+            - generic [ref=e129]: Model Routes
+            - generic [ref=e130]: "0"
+        - generic [ref=e131]:
+          - heading "Quick Start" [ref=e132]:
+            - heading "Quick Start" [ref=e133]
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - generic [ref=e138]: "1"
+              - generic [ref=e140]:
+                - generic [ref=e142]: Create a Provider
+                - generic [ref=e143]: Register an upstream AI provider (e.g., OpenAI, Anthropic, DeepSeek)
+            - generic [ref=e144]:
+              - generic [ref=e147]: "2"
+              - generic [ref=e149]:
+                - generic [ref=e151]: Add an Endpoint
+                - generic [ref=e152]: Configure the provider endpoint URL, protocol support, and API key
+            - generic [ref=e153]:
+              - generic [ref=e156]: "3"
+              - generic [ref=e158]:
+                - generic [ref=e160]: Create a Model Route
+                - generic [ref=e161]: Map model aliases to upstream models and protocols
+            - generic [ref=e162]:
+              - generic [ref=e165]: "4"
+              - generic [ref=e167]:
+                - generic [ref=e169]: Generate an API Key
+                - generic [ref=e170]: Create API keys to access models through the gateway
+            - generic [ref=e171]:
+              - generic [ref=e174]: "5"
+              - generic [ref=e175]:
+                - generic [ref=e177]: Start Using
+                - generic [ref=e178]: Use Chat, Playground, or integrate via OpenAI/Anthropic compatible API
+  - generic [ref=e180]:
+    - img [ref=e183]
+    - generic [ref=e187]: Login successful
